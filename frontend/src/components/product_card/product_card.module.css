@@ -1,0 +1,10 @@
+.productCard {
+  width: 200px;
+  height: 200px;
+  background-color: red;
+  margin: 0 auto;
+}
+.title {
+  font-size: 1.6rem;
+  font-weight: 700;
+}
