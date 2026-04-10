@@ -17,4 +17,6 @@ public class Product {
     private String name;
     private Double price;
     private Map<String, Object> details;
+    private Integer stock;
+    private boolean active;
 }

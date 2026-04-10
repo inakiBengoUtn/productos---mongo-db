@@ -1,6 +1,7 @@
 package com.productos.mongodb.controller;
 
 import com.productos.mongodb.dto.request.CreateProductRequest;
+import com.productos.mongodb.dto.request.ProductFilterRequest;
 import com.productos.mongodb.dto.responses.ProductResponse;
 import com.productos.mongodb.model.Product;
 import com.productos.mongodb.service.ProductService;
@@ -36,8 +37,8 @@ public class ProductController {
     }
 
     @GetMapping
-    public ResponseEntity<List<ProductResponse>> findAll() {
-        List<ProductResponse> allProducts = service.findAll();
+    public ResponseEntity<List<ProductResponse>> findAll(@RequestBody @Valid ProductFilterRequest filter) {
+        List<ProductResponse> allProducts = service.findAll(filter);
         return ResponseEntity.ok(allProducts);
     }
 

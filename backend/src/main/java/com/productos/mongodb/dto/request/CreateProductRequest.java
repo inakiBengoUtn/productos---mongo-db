@@ -17,4 +17,6 @@ public class CreateProductRequest {
     private Double price;
     @NotNull
     private Map<String, Object> details;
+    @PositiveOrZero
+    private Integer stock;
 }
