@@ -16,7 +16,7 @@ docker pull mongo:8
 ````
 Lugo se debe correr esta imagen
 ```` bash
-docker run -d --name mongo-db -p 27017:27017 -e MONGO_INITDB_ROOT_USERNAME=admin -e MONGO_INITDB_ROOT_PASSWORD=secret mongo:8
+docker run -d --name mongo-db -p 27017:27017 -e MONGO_INITDB_ROOT_USERNAME=root -e MONGO_INITDB_ROOT_PASSWORD=root mongo:8
 ````
 Una vez ya este corriendo el contenedor de mongo se puede iniciar el backend.
 
