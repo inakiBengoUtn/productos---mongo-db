@@ -1,6 +1,7 @@
+import { useState, useRef, useEffect } from "react";
 import type { Product } from "../types";
 import { Link } from "react-router";
-import { Eye, Trash } from "lucide-react";
+import { Eye, Trash, EllipsisVertical, Pencil } from "lucide-react";
 import "./ProductCard.css";
 
 interface ProductCardProps {
@@ -8,6 +9,22 @@ interface ProductCardProps {
 }
 
 const ProductCard = ({ product }: ProductCardProps) => {
+  const [menuOpen, setMenuOpen] = useState(false);
+  const menuRef = useRef<HTMLDivElement>(null);
+
+  // Close menu when clicking outside
+  useEffect(() => {
+    const handleClickOutside = (e: MouseEvent) => {
+      if (menuRef.current && !menuRef.current.contains(e.target as Node)) {
+        setMenuOpen(false);
+      }
+    };
+    if (menuOpen) {
+      document.addEventListener("mousedown", handleClickOutside);
+    }
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, [menuOpen]);
+
   return (
     <div className="product_card">
       <div className="product_image">
@@ -27,6 +44,42 @@ const ProductCard = ({ product }: ProductCardProps) => {
         </div>
       </div>
       <div className="product_actions">
+        <div className="options_menu_wrapper" ref={menuRef}>
+          <button
+            className="options_btn"
+            onClick={() => setMenuOpen((prev) => !prev)}
+            aria-label="Product options"
+            id={`options-btn-${product.id}`}
+          >
+            <EllipsisVertical size={20} />
+          </button>
+
+          {menuOpen && (
+            <div className="options_dropdown">
+              <button
+                className="dropdown_item"
+                onClick={() => {
+                  setMenuOpen(false);
+                  /* TODO: edit handler */
+                }}
+              >
+                <Pencil size={15} />
+                <span>Editar</span>
+              </button>
+              <button
+                className="dropdown_item dropdown_item--danger"
+                onClick={() => {
+                  setMenuOpen(false);
+                  /* TODO: delete handler */
+                }}
+              >
+                <Trash size={15} />
+                <span>Eliminar</span>
+              </button>
+            </div>
+          )}
+        </div>
+
         <p className="price">${product.price.toLocaleString()}</p>
         <Link to={`/product/${product.id}`} className="view_details_btn">
           <Eye size={18} />
