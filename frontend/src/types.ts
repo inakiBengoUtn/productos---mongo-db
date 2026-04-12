@@ -7,4 +7,5 @@ export interface Product {
     availability: boolean;
     imageUrl: string;
     category: string;
+    features: string[];
 }

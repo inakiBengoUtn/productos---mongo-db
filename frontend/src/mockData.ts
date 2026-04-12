@@ -12,6 +12,7 @@ export const products: Product[] = [
     imageUrl:
       "https://images.unsplash.com/photo-1516035069371-29a1b244cc32?auto=format&fit=crop&q=80&w=800",
     category: "Photography",
+    features: ["Nano Crystal Coating", "Weather-Sealed Body", "Ultra-Fast AF"],
   },
   {
     id: "2",
@@ -24,6 +25,7 @@ export const products: Product[] = [
     imageUrl:
       "https://images.unsplash.com/photo-1508685096489-7aacd43bd3b1?auto=format&fit=crop&q=80&w=800",
     category: "Electronics",
+    features: ["OLED High-Res Display", "14-Day Battery", "Military Grade Precision"],
   },
   {
     id: "3",
@@ -36,6 +38,7 @@ export const products: Product[] = [
     imageUrl:
       "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?auto=format&fit=crop&q=80&w=800",
     category: "Audio",
+    features: ["ANC Technology", "Spatial Audio", "40-Hour Battery", "Memory Foam Pads"],
   },
   {
     id: "4",
@@ -48,6 +51,7 @@ export const products: Product[] = [
     imageUrl:
       "https://images.unsplash.com/photo-1511467687858-23d96c32e4ae?auto=format&fit=crop&q=80&w=800",
     category: "Peripherals",
+    features: ["Hot-Swappable Switches", "Full RGB Control", "Titanium Base Plate"],
   },
   {
     id: "5",
@@ -60,6 +64,7 @@ export const products: Product[] = [
     imageUrl:
       "https://i.etsystatic.com/52108998/r/il/59e9aa/6141103046/il_340x270.6141103046_kvnw.jpg",
     category: "Home Deco",
+    features: ["Adjustable Color Temp", "Smart Home Ready", "Sculptural Design"],
   },
   {
     id: "6",
@@ -72,6 +77,7 @@ export const products: Product[] = [
     imageUrl:
       "https://images.unsplash.com/photo-1553062407-98eeb64c6a62?auto=format&fit=crop&q=80&w=800",
     category: "Lifestyle",
+    features: ["Water-Resistant Fabric", "16\" Laptop Sleeve", "Anti-Theft Pockets"],
   },
 ];
 
