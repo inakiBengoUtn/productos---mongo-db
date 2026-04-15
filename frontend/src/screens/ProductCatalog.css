@@ -1,6 +1,28 @@
 .catalog-container {
-    padding-top: 4rem;
+    padding-top: 1.5rem;
     padding-bottom: 4rem;
+}
+
+.home-back-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.65rem;
+    color: var(--text-secondary);
+    margin-bottom: 2rem;
+    font-weight: 500;
+    transition: all 0.2s ease;
+    padding: 0.5rem 1rem;
+    border-radius: 0.75rem;
+    background: var(--glass);
+    border: 1px solid var(--glass-stroke);
+    text-decoration: none;
+}
+
+.home-back-link:hover {
+    color: var(--primary);
+    background: var(--bg-secondary);
+    border-color: var(--primary-light);
+    transform: translateX(-4px);
 }
 
 .catalog-header {

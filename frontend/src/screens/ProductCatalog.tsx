@@ -6,7 +6,8 @@ import { useToast } from '../components/useToast';
 import ProductCard from '../components/ProductCard';
 import Toolbar from '../components/Toolbar';
 import ProductFormModal from '../components/ProductFormModal';
-import { Package } from 'lucide-react';
+import { Package, Home } from 'lucide-react';
+import { Link } from "react-router";
 import './ProductCatalog.css';
 
 const ProductCatalog = () => {
@@ -75,6 +76,10 @@ const ProductCatalog = () => {
 
     return (
         <div className="catalog-container container">
+            <Link to="/" className="home-back-link" id="back-to-home-link">
+                <Home size={18} />
+                <span>Inicio</span>
+            </Link>
             <header className="catalog-header">
                 <div className="header-info">
                     <Package className="header-icon" size={32} />
