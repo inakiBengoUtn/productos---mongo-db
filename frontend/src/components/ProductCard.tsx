@@ -53,7 +53,7 @@ const ProductCard = ({ product, onDelete }: ProductCardProps) => {
           ) : (
             <div className="stock_indication stock_unavailable"></div>
           )}
-          <p>{product.stock} in stock</p>
+          <p>{product.stock} en stock</p>
         </div>
       </div>
       <div className="product_actions">
@@ -88,7 +88,7 @@ const ProductCard = ({ product, onDelete }: ProductCardProps) => {
         <p className="price">${product.price.toLocaleString()}</p>
         <Link to={`/product/${product.id}`} className="view_details_btn">
           <Eye size={18} />
-          <span>View Details</span>
+          <span>Ver detalles</span>
         </Link>
       </div>
     </div>

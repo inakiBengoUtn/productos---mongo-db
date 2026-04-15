@@ -83,6 +83,7 @@ public class ProductService {
         pResponse.setName(p.getName());
         pResponse.setPrice(p.getPrice());
         pResponse.setDetails(p.getDetails());
+        pResponse.setStock(p.getStock());
         return pResponse;
     }
 
