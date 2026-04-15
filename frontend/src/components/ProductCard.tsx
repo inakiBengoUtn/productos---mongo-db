@@ -1,14 +1,15 @@
 import { useState, useRef, useEffect } from "react";
 import type { Product } from "../types";
 import { Link } from "react-router";
-import { Eye, Trash, EllipsisVertical, Pencil } from "lucide-react";
+import { Eye, Trash, EllipsisVertical, ImageOff } from "lucide-react";
 import "./ProductCard.css";
 
 interface ProductCardProps {
   product: Product;
+  onDelete?: (id: string, name: string) => void;
 }
 
-const ProductCard = ({ product }: ProductCardProps) => {
+const ProductCard = ({ product, onDelete }: ProductCardProps) => {
   const [menuOpen, setMenuOpen] = useState(false);
   const menuRef = useRef<HTMLDivElement>(null);
 
@@ -28,7 +29,19 @@ const ProductCard = ({ product }: ProductCardProps) => {
   return (
     <div className="product_card">
       <div className="product_image">
-        <img src={product.imageUrl} alt={product.name} />
+        {product.imageUrl ? (
+          <img 
+            src={product.imageUrl} 
+            alt={product.name} 
+            onError={(e) => {
+              (e.currentTarget as HTMLImageElement).style.display = "none";
+              e.currentTarget.nextElementSibling?.classList.remove("hidden");
+            }}
+          />
+        ) : null}
+        <div className={`product-card-fallback ${product.imageUrl ? "hidden" : ""}`}>
+          <ImageOff size={40} />
+        </div>
       </div>
       <div className="product_info">
         <p className="category">{product.category}</p>
@@ -57,20 +70,12 @@ const ProductCard = ({ product }: ProductCardProps) => {
           {menuOpen && (
             <div className="options_dropdown">
               <button
-                className="dropdown_item"
-                onClick={() => {
-                  setMenuOpen(false);
-                  /* TODO: edit handler */
-                }}
-              >
-                <Pencil size={15} />
-                <span>Editar</span>
-              </button>
-              <button
                 className="dropdown_item dropdown_item--danger"
                 onClick={() => {
                   setMenuOpen(false);
-                  /* TODO: delete handler */
+                  if (window.confirm(`¿Eliminar "${product.name}"? Esta acción no se puede deshacer.`)) {
+                    onDelete?.(product.id, product.name);
+                  }
                 }}
               >
                 <Trash size={15} />

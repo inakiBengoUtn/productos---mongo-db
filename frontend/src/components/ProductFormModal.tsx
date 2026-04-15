@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { X, Package, DollarSign, Boxes, Tag, FileText, Image } from "lucide-react";
 import type { CreateProductRequest } from "../types";
+import { createProduct } from "../services/api";
 import "./ProductFormModal.css";
 
 interface ProductFormModalProps {
@@ -97,17 +98,7 @@ export default function ProductFormModal({
 
     try {
       const payload = buildPayload();
-      const res = await fetch("http://localhost:8080/products", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(payload),
-      });
-
-      if (!res.ok) {
-        const text = await res.text();
-        throw new Error(text || `Error ${res.status}`);
-      }
-
+      await createProduct(payload);
       onSuccess?.();
       onClose();
     } catch (err) {

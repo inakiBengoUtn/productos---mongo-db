@@ -1,4 +1,5 @@
 import { Link } from "react-router";
+import { useEffect, useState } from "react";
 import {
   Package,
   ArrowRight,
@@ -7,7 +8,7 @@ import {
   Search,
   Boxes,
 } from "lucide-react";
-import { products } from "../mockData";
+import { getProducts } from "../services/api";
 import { motion } from "framer-motion";
 import "./IndexScreen.css";
 
@@ -21,9 +22,21 @@ const fadeUp = {
 };
 
 export default function IndexScreen() {
-  const totalProducts = products.length;
-  const availableProducts = products.filter((p) => p.availability).length;
-  const categories = new Set(products.map((p) => p.category)).size;
+  const [totalProducts, setTotalProducts] = useState<number | null>(null);
+  const [availableProducts, setAvailableProducts] = useState<number | null>(null);
+  const [categories, setCategories] = useState<number | null>(null);
+
+  useEffect(() => {
+    getProducts({})
+      .then((data) => {
+        setTotalProducts(data.length);
+        setAvailableProducts(data.filter((p) => p.availability).length);
+        setCategories(new Set(data.map((p) => p.category)).size);
+      })
+      .catch(() => {
+        // Stats not critical — leave as null, UI handles gracefully
+      });
+  }, []);
 
   return (
     <div className="index-screen">
@@ -79,7 +92,9 @@ export default function IndexScreen() {
             viewport={{ once: true }}
             variants={fadeUp}
           >
-            <span className="stat-number">{stat.number}</span>
+            <span className="stat-number">
+              {stat.number !== null ? stat.number : <span className="stat-loading">·</span>}
+            </span>
             <span className="stat-text">{stat.label}</span>
           </motion.div>
         ))}

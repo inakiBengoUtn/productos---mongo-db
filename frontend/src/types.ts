@@ -1,3 +1,4 @@
+/** UI model — used by all React components */
 export interface Product {
     id: string;
     name: string;
@@ -8,6 +9,16 @@ export interface Product {
     imageUrl: string;
     category: string;
     features: string[];
+    details: Record<string, unknown>;
+}
+
+/** Maps to ProductResponse DTO returned by Spring Boot */
+export interface ProductResponse {
+    id: string;
+    name: string;
+    price: number;
+    stock: number;
+    details: Record<string, unknown>;
 }
 
 /** Maps to ProductFilterRequest DTO in Spring Boot */

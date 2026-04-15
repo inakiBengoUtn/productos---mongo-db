@@ -18,6 +18,7 @@ import java.net.URI;
 import java.util.List;
 
 @RestController
+@CrossOrigin(origins = "*")
 @RequestMapping("/products")
 @RequiredArgsConstructor
 @Slf4j
@@ -37,7 +38,7 @@ public class ProductController {
     }
 
     @GetMapping
-    public ResponseEntity<List<ProductResponse>> findAll(@RequestBody @Valid ProductFilterRequest filter) {
+    public ResponseEntity<List<ProductResponse>> findAll(@ModelAttribute ProductFilterRequest filter) {
         List<ProductResponse> allProducts = service.findAll(filter);
         return ResponseEntity.ok(allProducts);
     }

@@ -2,25 +2,36 @@ import { useLoaderData, Link } from "react-router";
 import type { Product } from "../types";
 import {
   ArrowLeft,
-  ShoppingCart,
   CheckCircle,
   XCircle,
-  Info,
-  Tag,
   Package,
-  List,
+  Tag,
+  Hash,
+  Layers,
+  ImageOff,
 } from "lucide-react";
 import { motion } from "framer-motion";
 import "./ProductDetailScreen.css";
 
+/** Capitalise the first letter of a detail key for display */
+function formatKey(key: string) {
+  return key.charAt(0).toUpperCase() + key.slice(1);
+}
+
 const ProductDetailScreen = () => {
   const { product } = useLoaderData() as { product: Product };
 
+  // All entries from details that are NOT the visual helpers already shown elsewhere
+  const VISUAL_KEYS = new Set(["description", "imageUrl", "category"]);
+  const customDetails = Object.entries(product.details ?? {}).filter(
+    ([k]) => !VISUAL_KEYS.has(k)
+  );
+
   return (
     <div className="detail-container container">
-      <Link to="/" className="back-link">
+      <Link to="/catalog" className="back-link" id="back-to-catalog-link">
         <ArrowLeft size={20} />
-        <span>Back to Catalog</span>
+        <span>Volver al Catálogo</span>
       </Link>
 
       <motion.div
@@ -29,77 +40,108 @@ const ProductDetailScreen = () => {
         animate={{ opacity: 1, scale: 1 }}
         transition={{ duration: 0.4 }}
       >
+        {/* ── Image panel ── */}
         <div className="product-visual">
-          <img
-            src={product.imageUrl}
-            alt={product.name}
-            className="detail-image"
-          />
+          {product.imageUrl ? (
+            <img
+              src={product.imageUrl}
+              alt={product.name}
+              className="detail-image"
+              onError={(e) => {
+                (e.currentTarget as HTMLImageElement).style.display = "none";
+                e.currentTarget.nextElementSibling?.classList.remove("hidden");
+              }}
+            />
+          ) : null}
+          <div className={`image-fallback ${product.imageUrl ? "hidden" : ""}`}>
+            <ImageOff size={64} />
+            <span>Sin imagen</span>
+          </div>
         </div>
 
+        {/* ── Info panel ── */}
         <div className="product-info-panel">
+          {/* Header */}
           <div className="detail-header">
             <span className="detail-category">{product.category}</span>
             <h1 className="detail-title">{product.name}</h1>
             <div className="detail-price-status">
-              <span className="detail-price">${product.price.toFixed(2)}</span>
-              <div
-                className={`status-badge ${product.availability ? "available" : "unavailable"}`}
-              >
+              <span className="detail-price">
+                ${product.price.toLocaleString("es-AR", { minimumFractionDigits: 2 })}
+              </span>
+              <div className={`status-badge ${product.availability ? "available" : "unavailable"}`}>
                 {product.availability ? (
                   <>
-                    <CheckCircle size={14} /> <span>In Stock</span>
+                    <CheckCircle size={14} /> <span>En stock</span>
                   </>
                 ) : (
                   <>
-                    <XCircle size={14} /> <span>Out of Stock</span>
+                    <XCircle size={14} /> <span>Sin stock</span>
                   </>
                 )}
               </div>
             </div>
           </div>
 
-          <div className="detail-section">
-            <h3 className="section-title">
-              <Info size={16} /> Description
-            </h3>
-            <p className="detail-description">{product.description}</p>
-          </div>
-
+          {/* Quick specs row */}
           <div className="detail-specs">
             <div className="spec-item">
               <Package size={18} />
               <div className="spec-content">
-                <span className="spec-label">Stock Level</span>
-                <span className="spec-value">{product.stock} units</span>
+                <span className="spec-label">Stock</span>
+                <span className="spec-value">{product.stock} unidades</span>
               </div>
             </div>
             <div className="spec-item">
-              <Tag size={18} />
+              <Hash size={18} />
               <div className="spec-content">
-                <span className="spec-label">Product ID</span>
-                <span className="spec-value">
-                  #SKU-{product.id.padStart(4, "0")}
+                <span className="spec-label">ID Mongo</span>
+                <span className="spec-value spec-value--mono" title={product.id}>
+                  {product.id.slice(0, 8)}…
                 </span>
               </div>
             </div>
           </div>
 
-          <div className="detail-section">
-            <ul className="features-list">
-              {product.features.map((feature, index) => (
-                <li key={index} className="feature-item">
-                  <CheckCircle size={14} className="feature-icon-check" />
-                  <span>{feature}</span>
-                </li>
-              ))}
-            </ul>
-          </div>
+          {/* Description */}
+          {product.description && product.description !== "Sin descripción" && (
+            <div className="detail-section">
+              <h3 className="section-title">
+                <Tag size={16} /> Descripción
+              </h3>
+              <p className="detail-description">{product.description}</p>
+            </div>
+          )}
 
-          <button className="buy-now-btn" disabled={!product.availability}>
-            <ShoppingCart size={20} />
-            <span>Add to Inventory</span>
-          </button>
+          {/* ── MongoDB details map ── */}
+          {customDetails.length > 0 && (
+            <div className="detail-section">
+              <h3 className="section-title">
+                <Layers size={16} /> Características
+                <span className="section-badge">MongoDB details</span>
+              </h3>
+              <div className="details-map-grid">
+                {customDetails.map(([key, value]) => (
+                  <motion.div
+                    key={key}
+                    className="detail-chip"
+                    initial={{ opacity: 0, y: 8 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.25 }}
+                  >
+                    <span className="chip-key">{formatKey(key)}</span>
+                    <span className="chip-value">{String(value)}</span>
+                  </motion.div>
+                ))}
+              </div>
+            </div>
+          )}
+
+          {customDetails.length === 0 && (
+            <div className="no-details-notice">
+              Este producto no tiene características adicionales registradas.
+            </div>
+          )}
         </div>
       </motion.div>
     </div>
