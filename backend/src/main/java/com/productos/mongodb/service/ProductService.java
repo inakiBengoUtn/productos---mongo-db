@@ -59,7 +59,7 @@ public class ProductService {
         if (!criteria.isEmpty()) {
             query.addCriteria(new Criteria().andOperator(criteria));
         }
-        return  mongoTemplate.find(query, Product.class)
+        return mongoTemplate.find(query, Product.class)
                 .stream()
                 .map(this::toProductResponse)
                 .toList();
@@ -71,6 +71,7 @@ public class ProductService {
         productResponse.setName(p.getName());
         productResponse.setPrice(p.getPrice());
         productResponse.setDetails(p.getDetails());
+        productResponse.setStock(p.getStock());
         return productResponse;
     }
 

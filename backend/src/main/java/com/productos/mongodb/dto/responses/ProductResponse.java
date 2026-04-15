@@ -13,4 +13,5 @@ public class ProductResponse {
     private String name;
     private Double price;
     private Map<String, Object> details;
+    private Integer stock;
 }
